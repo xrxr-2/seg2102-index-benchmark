@@ -1,0 +1,32 @@
+point_cold_uniform_no_index
+
+Dataset: online_retail_uniform
+Index: None
+Query type: Point query (cold key)
+Stockcode: '23634'
+Distribution: Uniform
+
+SQL:
+EXPLAIN ANALYZE
+SELECT *
+FROM online_retail_uniform
+WHERE stockcode = '23634';
+
+"QUERY PLAN"
+"Gather  (cost=1000.00..11469.36 rows=134 width=84) (actual time=0.316..31.351 rows=123.00 loops=1)"
+"  Workers Planned: 2"
+"  Workers Launched: 2"
+"  Buffers: shared hit=7695"
+"  ->  Parallel Seq Scan on online_retail_uniform  (cost=0.00..10455.96 rows=56 width=84) (actual time=0.363..22.908 rows=41.00 loops=3)"
+"        Filter: (stockcode = '23634'::text)"
+"        Rows Removed by Filter: 176660"
+"        Buffers: shared hit=7695"
+"Planning Time: 0.067 ms"
+"Execution Time: 31.398 ms"
+
+Summary:
+- Rows returned: 123
+- Execution time: 31.398 ms
+- Planning time: 0.067 ms
+- Scan type: Parallel Sequential Scan
+- Rows removed by filter: 176,660

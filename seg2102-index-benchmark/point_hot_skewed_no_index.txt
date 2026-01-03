@@ -1,0 +1,31 @@
+point_hot_skewed_no_index
+
+Dataset: online_retail_skewed
+Index: None
+Query type: Point query (hot key)
+Stockcode: '85123A'
+Distribution: Skewed
+
+SQL:
+EXPLAIN ANALYZE
+SELECT *
+FROM online_retail_skewed
+WHERE stockcode = '85123A';
+
+Result:
+"QUERY PLAN"
+"Seq Scan on online_retail_skewed  (cost=0.00..14316.30 rows=35817 width=84) (actual time=0.619..274.318 rows=36929.00 loops=1)"
+"  Filter: (stockcode = '85123A'::text)"
+"  Rows Removed by Filter: 493175"
+"  Buffers: shared hit=7690"
+"Planning:"
+"  Buffers: shared hit=5 dirtied=2"
+"Planning Time: 2.107 ms"
+"Execution Time: 275.296 ms"
+
+Summary:
+- Rows returned: 36,929
+- Execution time: 275.296 ms
+- Planning time: 2.107 ms
+- Scan type: Sequential Scan
+- Rows removed by filter: 493,175

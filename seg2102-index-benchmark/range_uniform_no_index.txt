@@ -1,0 +1,29 @@
+range_uniform_no_index
+
+Dataset: online_retail_uniform
+Index: None
+Query type: Range query
+Range: stockcode BETWEEN '22000' AND '23000'
+Distribution: Uniform
+
+SQL:
+EXPLAIN ANALYZE
+SELECT *
+FROM online_retail_uniform
+WHERE stockcode BETWEEN '22000' AND '23000';
+
+Result:
+"QUERY PLAN"
+"Seq Scan on online_retail_uniform  (cost=0.00..15646.56 rows=123597 width=84) (actual time=0.534..255.489 rows=124778.00 loops=1)"
+"  Filter: ((stockcode >= '22000'::text) AND (stockcode <= '23000'::text))"
+"  Rows Removed by Filter: 405326"
+"  Buffers: shared hit=7695"
+"Planning Time: 0.889 ms"
+"Execution Time: 257.993 ms"
+
+Summary:
+- Rows returned: 124,778
+- Execution time: 257.993 ms
+- Planning time: 0.889 ms
+- Scan type: Sequential Scan
+- Rows removed by filter: 405,326

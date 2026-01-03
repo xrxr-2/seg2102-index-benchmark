@@ -1,0 +1,35 @@
+point_hot_uniform_no_index
+
+Dataset: online_retail_uniform
+Index: None
+Query type: Point query (hot key)
+Stockcode: '85123A'
+Distribution: Uniform
+
+SQL:
+EXPLAIN ANALYZE
+SELECT *
+FROM online_retail_uniform
+WHERE stockcode = '85123A';
+
+Result:
+"QUERY PLAN"
+"Gather  (cost=1000.00..11469.36 rows=134 width=84) (actual time=4.857..143.302 rows=112.00 loops=1)"
+"  Workers Planned: 2"
+"  Workers Launched: 2"
+"  Buffers: shared hit=7695"
+"  ->  Parallel Seq Scan on online_retail_uniform  (cost=0.00..10455.96 rows=56 width=84) (actual time=2.509..129.398 rows=37.33 loops=3)"
+"        Filter: (stockcode = '85123A'::text)"
+"        Rows Removed by Filter: 176664"
+"        Buffers: shared hit=7695"
+"Planning:"
+"  Buffers: shared hit=5 dirtied=1"
+"Planning Time: 1.181 ms"
+"Execution Time: 143.830 ms"
+
+Summary:
+- Rows returned: 112
+- Execution time: 143.830 ms
+- Planning time: 1.181 ms
+- Scan type: Parallel Sequential Scan
+- Rows removed by filter: 176,664

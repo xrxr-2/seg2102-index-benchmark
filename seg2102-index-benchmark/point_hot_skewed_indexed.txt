@@ -1,0 +1,35 @@
+point_hot_skewed_indexed
+
+Dataset: online_retail_skewed
+Index: idx_skewed_stockcode
+Query type: Point query (hot key)
+Stockcode: '85123A'
+Distribution: Skewed
+
+SQL:
+EXPLAIN ANALYZE
+SELECT *
+FROM online_retail_skewed
+WHERE stockcode = '85123A';
+
+Result:
+"QUERY PLAN"
+"Bitmap Heap Scan on online_retail_skewed  (cost=406.01..8543.72 rows=35817 width=84) (actual time=6.160..25.385 rows=36929.00 loops=1)"
+"  Recheck Cond: (stockcode = '85123A'::text)"
+"  Heap Blocks: exact=7644"
+"  Buffers: shared hit=7644 read=34"
+"  ->  Bitmap Index Scan on idx_skewed_stockcode  (cost=0.00..397.05 rows=35817 width=0) (actual time=4.598..4.599 rows=36929.00 loops=1)"
+"        Index Cond: (stockcode = '85123A'::text)"
+"        Index Searches: 1"
+"        Buffers: shared read=34"
+"Planning:"
+"  Buffers: shared hit=43 read=1 dirtied=5"
+"Planning Time: 2.003 ms"
+"Execution Time: 26.542 ms"
+
+Summary:
+- Rows returned: 36,929
+- Execution time: 26.542 ms
+- Planning time: 2.003 ms
+- Scan type: Bitmap Index Scan
+- Heap blocks accessed: 7,644

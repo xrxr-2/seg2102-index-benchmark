@@ -1,0 +1,29 @@
+range_skewed_no_index
+
+Dataset: online_retail_skewed
+Index: None
+Query type: Range query
+Range: stockcode BETWEEN '22000' AND '23000'
+Distribution: Skewed
+
+SQL:
+EXPLAIN ANALYZE
+SELECT *
+FROM online_retail_skewed
+WHERE stockcode BETWEEN '22000' AND '23000';
+
+Result:
+"QUERY PLAN"
+"Seq Scan on online_retail_skewed  (cost=0.00..15641.56 rows=150959 width=84) (actual time=0.070..70.988 rows=148620.00 loops=1)"
+"  Filter: ((stockcode >= '22000'::text) AND (stockcode <= '23000'::text))"
+"  Rows Removed by Filter: 381484"
+"  Buffers: shared hit=7690"
+"Planning Time: 1.672 ms"
+"Execution Time: 74.500 ms"
+
+Summary:
+- Rows returned: 148,620
+- Execution time: 74.500 ms
+- Planning time: 1.672 ms
+- Scan type: Sequential Scan
+- Rows removed by filter: 381,484

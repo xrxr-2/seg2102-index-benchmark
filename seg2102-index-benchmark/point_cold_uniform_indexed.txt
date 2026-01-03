@@ -1,0 +1,33 @@
+point_cold_uniform_indexed
+
+Dataset: online_retail_uniform
+Index: idx_uniform_stockcode
+Query type: Point query (cold key)
+Stockcode: '23634'
+Distribution: Uniform
+
+SQL:
+EXPLAIN ANALYZE
+SELECT *
+FROM online_retail_uniform
+WHERE stockcode = '23634';
+
+Result:
+"QUERY PLAN"
+"Bitmap Heap Scan on online_retail_uniform (cost=5.46..486.68 rows=134 width=84) (actual time=2.922..4.056 rows=123.00 loops=1)"
+"  Recheck Cond: (stockcode = '23634'::text)"
+"  Heap Blocks: exact=122"
+"  Buffers: shared hit=121 read=4"
+"  ->  Bitmap Index Scan on idx_uniform_stockcode (cost=0.00..5.43 rows=134 width=0) (actual time=1.931..1.932 rows=123.00 loops=1)"
+"        Index Cond: (stockcode = '23634'::text)"
+"        Index Searches: 1"
+"        Buffers: shared read=3"
+"Planning Time: 0.163 ms"
+"Execution Time: 4.138 ms"
+
+Summary:
+- Rows returned: 123
+- Execution time: 4.138 ms
+- Planning time: 0.163 ms
+- Scan type: Bitmap Index Scan
+- Heap blocks accessed: 122

@@ -1,0 +1,33 @@
+point_cold_skewed_no_index
+
+Dataset: online_retail_skewed
+Index: None
+Query type: Point query (cold key)
+Stockcode: '23634'
+Distribution: Skewed
+
+SQL:
+EXPLAIN ANALYZE
+SELECT *
+FROM online_retail_skewed
+WHERE stockcode = '23634';
+
+Result:
+"QUERY PLAN"
+"Gather  (cost=1000.00..11455.26 rows=43 width=84) (actual time=10.065..29.874 rows=41.00 loops=1)"
+"  Workers Planned: 2"
+"  Workers Launched: 2"
+"  Buffers: shared hit=7690"
+"  ->  Parallel Seq Scan on online_retail_skewed  (cost=0.00..10450.96 rows=18 width=84) (actual time=3.550..21.297 rows=13.67 loops=3)"
+"        Filter: (stockcode = '23634'::text)"
+"        Rows Removed by Filter: 176688"
+"        Buffers: shared hit=7690"
+"Planning Time: 0.073 ms"
+"Execution Time: 29.912 ms"
+
+Summary:
+- Rows returned: 41
+- Execution time: 29.912 ms
+- Planning time: 0.073 ms
+- Scan type: Parallel Sequential Scan
+- Rows removed by filter: 176,688

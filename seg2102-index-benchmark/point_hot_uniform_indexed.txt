@@ -1,0 +1,34 @@
+point_hot_uniform_indexed
+
+Dataset: online_retail_uniform
+Index: idx_uniform_stockcode (B-tree)
+Query type: Point query (hot key)
+Stockcode: '85123A'
+
+SQL:
+EXPLAIN ANALYZE
+SELECT *
+FROM online_retail_uniform
+WHERE stockcode = '85123A';
+
+Result:
+"QUERY PLAN"
+"Bitmap Heap Scan on online_retail_uniform  (cost=5.46..486.68 rows=134 width=84) (actual time=0.276..0.728 rows=112.00 loops=1)"
+"  Recheck Cond: (stockcode = '85123A'::text)"
+"  Heap Blocks: exact=112"
+"  Buffers: shared hit=112 read=3"
+"  ->  Bitmap Index Scan on idx_uniform_stockcode  (cost=0.00..5.43 rows=134 width=0) (actual time=0.256..0.256 rows=112.00 loops=1)"
+"        Index Cond: (stockcode = '85123A'::text)"
+"        Index Searches: 1"
+"        Buffers: shared read=3"
+"Planning:"
+"  Buffers: shared hit=44 read=1 dirtied=3"
+"Planning Time: 1.521 ms"
+"Execution Time: 0.755 ms"
+
+Summary:
+- Rows returned: 112
+- Execution time: 0.755 ms
+- Planning time: 1.521 ms
+- Scan type: Bitmap Index Scan
+- Heap blocks accessed: 112
